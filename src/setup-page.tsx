@@ -1,4 +1,4 @@
-// Claude Desktop OAuth-client list and management setup page.
+// MCP-client OAuth-client list and management setup page.
 // Lives in the extension package alongside the OAuth store helpers.
 
 import "server-only";
@@ -6,9 +6,9 @@ import { Main, PageHeader, PageContent } from "@cinatra-ai/sdk-ui/marketplace";
 import type { ExtensionHostContext } from "@cinatra-ai/sdk-extensions";
 import { Alert, AlertDescription } from "./components/ui/alert";
 import { Button } from "./components/ui/button";
-import { listClaudeDesktopClients, type McpOAuthClient } from "./index";
+import { listExternalMcpClients, type McpOAuthClient } from "./index";
 import { CopyMcpUrlPanel } from "./copy-mcp-url-panel";
-import { disconnectClaudeDesktopAction } from "./actions";
+import { disconnectMcpClientAction } from "./actions";
 
 type ConnectorSetupPageProps = {
   packageId: string;
@@ -46,7 +46,7 @@ function ConnectedClientRow({ client }: { client: McpOAuthClient }) {
   const registeredAt = client.createdAt
     ? dateFormatter.format(client.createdAt)
     : null;
-  const displayName = client.name?.trim() || "Claude client";
+  const displayName = client.name?.trim() || "MCP client";
 
   return (
     <li className="rounded-control border border-line bg-surface px-4 py-4">
@@ -61,7 +61,7 @@ function ConnectedClientRow({ client }: { client: McpOAuthClient }) {
             {localhostHint ? <span>Callback: {localhostHint}</span> : null}
           </div>
         </div>
-        <form action={disconnectClaudeDesktopAction} className="shrink-0">
+        <form action={disconnectMcpClientAction} className="shrink-0">
           <input type="hidden" name="clientId" value={client.clientId} />
           <Button
             type="submit"
@@ -77,7 +77,7 @@ function ConnectedClientRow({ client }: { client: McpOAuthClient }) {
   );
 }
 
-export default async function ClaudeConnectorSetupPage(
+export default async function McpClientConnectorSetupPage(
   { ctx }: ConnectorSetupPageProps,
 ) {
   // getPublicBaseUrl is optional by ABI contract (added in 2.1.0); call it
@@ -87,13 +87,13 @@ export default async function ClaudeConnectorSetupPage(
     publicBaseUrl: null,
   };
   const mcpPublicUrl = publicBaseUrl ? `${publicBaseUrl}/api/mcp` : null;
-  const connectedClients = await listClaudeDesktopClients();
+  const connectedClients = await listExternalMcpClients();
 
   return (
     <Main className="min-h-screen">
       <PageHeader
-        title="Claude"
-        description="Connect Claude Desktop, Claude.ai, or any MCP-compatible client to Cinatra."
+        title="MCP Client"
+        description="Connect Claude Desktop, Claude.ai, ChatGPT, or any other MCP-compatible client to Cinatra."
         className="max-w-3xl"
       />
       <PageContent className="max-w-3xl flex flex-col gap-6 pb-8">
@@ -105,7 +105,7 @@ export default async function ClaudeConnectorSetupPage(
             </div>
             <div className="rounded-control border border-line bg-surface-muted px-4 py-4">
               <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                How to connect
+                How to connect (Claude shown as an example)
               </p>
               <ol className="mt-3 grid gap-2 text-sm text-muted-foreground">
                 <li className="flex gap-2">
@@ -121,8 +121,8 @@ export default async function ClaudeConnectorSetupPage(
                   </span>
                 </li>
                 <li className="flex gap-2">
-                  <span className="shrink-0">2.</span>In Claude, go to Administration →
-                  Connectors → Add custom connector
+                  <span className="shrink-0">2.</span>In your MCP client, go to
+                  Administration → Connectors → Add custom connector
                 </li>
                 <li className="flex gap-2">
                   <span className="shrink-0">3.</span>Paste the URL above and confirm
@@ -147,7 +147,7 @@ export default async function ClaudeConnectorSetupPage(
                   >
                     Administration → MCP server
                   </a>{" "}
-                  so external clients like Claude can reach Cinatra.
+                  so external MCP clients can reach Cinatra.
                 </p>
               </AlertDescription>
             </Alert>
@@ -157,7 +157,7 @@ export default async function ClaudeConnectorSetupPage(
         <section className="soft-panel rounded-panel p-5">
           <div className="flex items-baseline justify-between gap-3">
             <p className="text-sm font-medium text-foreground">
-              Connected Claude clients
+              Connected clients
             </p>
             <span className="text-xs text-muted-foreground">
               {connectedClients.length} connected
@@ -171,9 +171,9 @@ export default async function ClaudeConnectorSetupPage(
             </ul>
           ) : (
             <div className="mt-3 rounded-control border border-dashed border-line bg-surface px-4 py-6 text-sm text-muted-foreground">
-              No Claude clients have connected yet. Once a Claude Desktop or
-              Claude.ai instance completes the connection flow, it will appear
-              here.
+              No external MCP clients have connected yet. Once a client such as
+              Claude Desktop, Claude.ai, or ChatGPT completes the connection
+              flow, it will appear here.
             </div>
           )}
         </section>
