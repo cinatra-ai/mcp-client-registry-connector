@@ -1,0 +1,26 @@
+# Dependencies — no lockfile is committed either; CI installs fresh
+# (see .github/workflows/ci.yml), so a locally generated pnpm-lock.yaml
+# stays untracked.
+node_modules/
+pnpm-lock.yaml
+
+# Build output (tsc outDir, see tsconfig.json)
+dist/
+
+# Test artifacts (vitest)
+coverage/
+
+# `npm pack` output
+*.tgz
+
+# Env files & secrets
+.env
+.env.*
+
+# Logs
+*.log
+
+# OS / editor cruft
+.DS_Store
+.idea/
+.vscode/
