@@ -1,7 +1,7 @@
 "use server";
 
-// Claude Desktop disconnect action lives in the extension. The host route keeps
-// a mirror while both setup entry points are supported.
+// MCP-client disconnect action lives in the extension, gated by the
+// per-install extension access policy via the SDK action guard.
 
 import { revalidatePath } from "next/cache";
 import { requireExtensionAction } from "@cinatra-ai/sdk-extensions";
@@ -9,10 +9,10 @@ import { deleteMcpOAuthClient } from "./index";
 
 const SYSTEM_CLIENT_IDS = new Set(["cinatra-app-mcp-client"]);
 
-export async function disconnectClaudeDesktopAction(
+export async function disconnectMcpClientAction(
   formData: FormData,
 ): Promise<void> {
-  await requireExtensionAction("@cinatra-ai/mcp-client-registry-connector", "manage");
+  await requireExtensionAction("@cinatra-ai/mcp-client-connector", "manage");
 
   const clientId = String(formData.get("clientId") ?? "").trim();
   if (!clientId) {
@@ -25,6 +25,6 @@ export async function disconnectClaudeDesktopAction(
   }
 
   await deleteMcpOAuthClient(clientId);
-  revalidatePath("/connectors/cinatra-ai/mcp-client-registry-connector/setup");
+  revalidatePath("/connectors/cinatra-ai/mcp-client-connector/setup");
   revalidatePath("/connectors");
 }
