@@ -40,7 +40,7 @@
   "cinatra": {
     "apiVersion": "cinatra.ai/v1",
     "kind": "connector",
-    "displayName": "MCP Client",
+    "displayName": "MCP Clients",
     "dependencies": [],
     "requestedHostPorts": [
       "mcp"
