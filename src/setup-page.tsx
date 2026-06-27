@@ -6,6 +6,7 @@ import { Main, PageHeader, PageContent } from "@cinatra-ai/sdk-ui/marketplace";
 import type { ExtensionHostContext } from "@cinatra-ai/sdk-extensions";
 import { Alert, AlertDescription } from "./components/ui/alert";
 import { Button } from "./components/ui/button";
+import { Link } from "./components/ui/link";
 import { listExternalMcpClients, type McpOAuthClient } from "./index";
 import { CopyMcpUrlPanel } from "./copy-mcp-url-panel";
 import { disconnectMcpClientAction } from "./actions";
@@ -62,9 +63,16 @@ function ConnectedClientRow({ client }: { client: McpOAuthClient }) {
           </div>
         </div>
         <form action={disconnectMcpClientAction} className="shrink-0">
-          <input type="hidden" name="clientId" value={client.clientId} />
+          {/* The clientId travels as the submit button's name/value: a form
+              submitted via a button includes that button's name/value in the
+              payload, so disconnectMcpClientAction still receives clientId
+              (identical to the prior hidden <input>) without a raw control
+              element. The repo has no shadcn <Input> primitive and a styled
+              text field would be wrong for non-visual form state anyway. */}
           <Button
             type="submit"
+            name="clientId"
+            value={client.clientId}
             variant="outline"
             size="sm"
             className="rounded-control border border-line bg-surface-muted px-3 py-1.5 text-xs font-medium text-foreground transition hover:bg-surface-strong"
@@ -111,12 +119,15 @@ export default async function McpClientConnectorSetupPage(
                 <li className="flex gap-2">
                   <span className="shrink-0">1.</span>
                   <span>
-                    <a
-                      href="https://code.claude.com/docs/en/desktop-quickstart"
-                      className="underline underline-offset-4 hover:text-foreground"
+                    <Button
+                      asChild
+                      variant="link"
+                      className="h-auto p-0 align-baseline text-sm font-normal text-muted-foreground underline underline-offset-4 hover:text-foreground hover:no-underline"
                     >
-                      Download and install Claude
-                    </a>{" "}
+                      <Link href="https://code.claude.com/docs/en/desktop-quickstart">
+                        Download and install Claude
+                      </Link>
+                    </Button>{" "}
                     for your desktop
                   </span>
                 </li>
@@ -141,12 +152,15 @@ export default async function McpClientConnectorSetupPage(
                 <p className="font-medium">Public URL not configured</p>
                 <p className="mt-1">
                   Set a public base URL in{" "}
-                  <a
-                    href="/configuration/mcp"
-                    className="underline underline-offset-4"
+                  <Button
+                    asChild
+                    variant="link"
+                    className="h-auto p-0 align-baseline text-sm font-normal underline underline-offset-4 hover:no-underline"
                   >
-                    Administration → MCP server
-                  </a>{" "}
+                    <Link href="/configuration/mcp">
+                      Administration → MCP server
+                    </Link>
+                  </Button>{" "}
                   so external MCP clients can reach Cinatra.
                 </p>
               </AlertDescription>
