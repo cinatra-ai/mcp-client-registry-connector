@@ -41,6 +41,7 @@
     "apiVersion": "cinatra.ai/v1",
     "kind": "connector",
     "displayName": "MCP Clients",
+    "sdkAbiRange": "^2",
     "dependencies": [],
     "requestedHostPorts": [
       "mcp"
