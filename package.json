@@ -49,6 +49,7 @@
     "dependencies": [],
     "requestedHostPorts": [
       "mcp"
-    ]
+    ],
+    "consumes": []
   }
 }
