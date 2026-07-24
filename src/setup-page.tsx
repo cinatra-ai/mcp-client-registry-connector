@@ -20,7 +20,6 @@ import { ConnectorSetupPage } from "@cinatra-ai/sdk-ui/connector-setup-page";
 import { ConnectorSetupColumns } from "@cinatra-ai/sdk-ui/connector-setup-columns";
 import { Tabs, TabsContent, TabsListRow, TabsTrigger } from "@cinatra-ai/sdk-ui/tabs";
 import { Alert, AlertDescription } from "./components/ui/alert";
-import { Badge } from "./components/ui/badge";
 import { Button } from "./components/ui/button";
 import { Link } from "./components/ui/link";
 import { listExternalMcpClients, type McpOAuthClient } from "./index";
@@ -199,7 +198,9 @@ export default async function McpClientConnectorSetupPage(
                 </p>
                 <div className="mt-3.5 flex flex-wrap gap-2">
                   {connectedClients.length > 0 ? (
-                    <Badge variant="success">{connectedClients.length} Connected</Badge>
+                    <span className="inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border border-transparent bg-success/10 px-2 py-0.5 text-xs font-medium whitespace-nowrap text-success">
+                      {connectedClients.length} Connected
+                    </span>
                   ) : (
                     <span className="text-xs text-muted-foreground">No connections yet.</span>
                   )}
