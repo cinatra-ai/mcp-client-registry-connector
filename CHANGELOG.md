@@ -29,7 +29,7 @@ project's merged pull request and release-tag history.
 ## Unreleased
 
 - docs(readme): expand README to the org standard (#18) (#19)
-- rename connector displayName to "MCP Clients" (cinatra-ai/cinatra#611) (#20)
+- rename connector displayName to "MCP Clients" (#20)
 - fix(ui): shadcn raw-element fixes + ramp ui-gate to error (#21)
 - ci: adopt source-leak-gate (#22)
 - ci: adopt source-leak-gate (#23)
