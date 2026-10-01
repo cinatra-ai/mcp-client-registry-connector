@@ -1,8 +1,8 @@
 import * as React from "react"
 
-import { cn } from "../../lib/utils"
+import { cn } from "../lib/utils"
 
-// shadcn-style anchor primitive. Lives under components/ui (the vendored
+// shadcn-style anchor primitive. Lives under src/ui (the vendored
 // primitive surface) so the raw <a> it renders is the single sanctioned
 // place an anchor exists, exactly like button.tsx is the only place a raw
 // <button> exists. Consumers use the documented shadcn link pattern:
@@ -10,7 +10,7 @@ import { cn } from "../../lib/utils"
 //   <Button asChild variant="link"><Link href="…">…</Link></Button>
 //
 // This keeps Block B (raw-JSX) enforceable at `error` everywhere outside
-// components/ui while preserving real anchor navigation.
+// src/ui while preserving real anchor navigation.
 function Link({
   className,
   ...props
