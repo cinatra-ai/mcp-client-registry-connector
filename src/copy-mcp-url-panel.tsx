@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "./components/ui/button";
+import { Button } from "@cinatra-ai/design-primitives";
 
 export function CopyMcpUrlPanel({ url }: { url: string }) {
   return (
